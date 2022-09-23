@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  my-project:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./index.js:/mini-project/index.js
+      - ./email.js:/mini-project/email.js
+      - ./phone.js:/mini-project/phones.js
+      - ./og.js:/mini-project/og.js
+      - ./starbucks.js:/mini-project/starbucks.js
+      - ./user.js:/mini-project/user.js
+    ports:
+      - 3000:3000
+
+  my-database:
+    image: mongo:5
+    ports:
+      - 27017:27017
