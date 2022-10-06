@@ -1,0 +1,111 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Movie {
+  id: String!
+  title: String!
+  summary: String!
+  open: String!
+  isIng: Boolean!
+  movieGenres: [MovieGenre!]!
+}
+
+type MovieGenre {
+  id: String!
+  name: String!
+  movie: [Movie!]!
+}
+
+type MovieImage {
+  id: String!
+  url: String!
+  isMain: Boolean!
+  movie: Movie!
+}
+
+type User {
+  id: String!
+  name: String!
+  phone: String!
+  email: String!
+  personal: String!
+  grade: String!
+  point: Int!
+}
+
+type MovieUser {
+  id: String!
+  impUid: String!
+  isPayment: String!
+  amount: Int!
+  movie: Movie!
+  user: User!
+  createAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  fetchUsers: [User!]!
+  fetchLoginUser: User!
+  fetchMovies: [Movie!]!
+  fetchMovie(movieId: String!): Movie!
+  fetchMovieImages: [MovieImage!]!
+  fetchMovieImageWithDeleted: [MovieImage!]!
+  fetchMovieImage(movieImageId: String!): MovieImage!
+}
+
+type Mutation {
+  login(userEmail: String!, password: String!): String!
+  restoreAccessToken: String!
+  createUser(createUserInput: CreateUserInput): User!
+  updateUserPwd(updateUserInput: UpdateUserInput!): User!
+  deleteLoginUser: Boolean!
+  createMovie(createMovieInput: CreateMovieInput): Movie!
+  UpdateMovie(movieId: String!, updateMovieInput: UpdateMovieInput!): Movie!
+  createMovieUser(impUid: String!, amount: Int!): MovieUser!
+  cancelMovieUser(impUid: String!, amount: Int!): MovieUser!
+  createMovieImage(createMovieImageInput: CreateMovieImageInput!): MovieImage!
+  deleteMovieImage(movieImageId: String!): Boolean!
+  restoreMovieImage(movieImageId: String!): Boolean!
+}
+
+input CreateUserInput {
+  name: String!
+  phone: String!
+  email: String!
+  password: String!
+  personal: String!
+}
+
+input UpdateUserInput {
+  name: String
+  phone: String
+  email: String
+  password: String
+  personal: String
+}
+
+input CreateMovieInput {
+  title: String!
+  summary: String!
+  open: String!
+  movieGenres: [String!]!
+}
+
+input UpdateMovieInput {
+  title: String
+  summary: String
+  open: String
+  movieGenres: [String!]
+}
+
+input CreateMovieImageInput {
+  url: String!
+  isMain: Boolean!
+  movieId: String!
+}
