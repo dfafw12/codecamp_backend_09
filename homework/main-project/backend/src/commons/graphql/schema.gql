@@ -67,6 +67,7 @@ type Mutation {
   deleteLoginUser: Boolean!
   createMovie(createMovieInput: CreateMovieInput): Movie!
   UpdateMovie(movieId: String!, updateMovieInput: UpdateMovieInput!): Movie!
+  uploadFile(files: [Upload!]!): [String!]!
   createMovieUser(impUid: String!, amount: Int!): MovieUser!
   cancelMovieUser(impUid: String!, amount: Int!): MovieUser!
   createMovieImage(createMovieImageInput: CreateMovieImageInput!): MovieImage!
@@ -103,6 +104,9 @@ input UpdateMovieInput {
   open: String
   movieGenres: [String!]
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input CreateMovieImageInput {
   url: String!

@@ -38,7 +38,6 @@ export class IamportService {
 
   async paymentInfo({ impUid, amount, token }) {
     try {
-      console.log(token);
       const getPaymentInfo: any = await axios({
         url: `https://api.iamport.kr/payments/${impUid}`, // imp_uid 전달
         method: "get", // GET method
@@ -76,8 +75,14 @@ export class IamportService {
           amount, // 가맹점 클라이언트로부터 받은 환불금액
         },
       });
-
-      return [impUid, amount];
+      // impUid = getCancelInfo.data.response.imp_uid
+      console.log(getCancelInfo, ": getCanceInfo");
+      console.log(getCancelInfo.data.response.amount, ": getCancelInfo amount");
+      console.log(
+        getCancelInfo.data.response.imp_uid,
+        ": getCancelInfo impUid"
+      );
+      return getCancelInfo;
     } catch (error) {
       throw new HttpException(
         error.response.data.message,

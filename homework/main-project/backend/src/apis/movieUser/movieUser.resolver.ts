@@ -41,6 +41,7 @@ export class MovieUserResolver {
     const user = context.req.user;
 
     if (!movieUser) {
+      console.log(movieUser, ": createMovieUser movieUser");
       return this.movieUserService.create({ impUid, amount, user });
     } else {
       throw new UnprocessableEntityException("이미 결제한 건.");
@@ -55,7 +56,8 @@ export class MovieUserResolver {
     @Context() context: IContext
   ) {
     const user = context.req.user;
-
+    console.log(amount, ": cancelMovieUser Cancel");
+    console.log(impUid, ": cancelMovieUser impUid");
     const token = await this.iamportService.getAccessToken();
     const cancelAmount = await this.iamportService.cancelPayment({
       impUid,
@@ -63,11 +65,12 @@ export class MovieUserResolver {
       token,
     });
 
-    console.log(cancelAmount);
-
+    console.log(cancelAmount, ":cancelMovieUser cancelAmount");
     return await this.movieUserService.cancel({
-      impUid: cancelAmount[0],
-      amount: cancelAmount[1],
+      // impUid: cancelAmount[0],
+      // amount: cancelAmount[1],
+      impUid,
+      amount,
       user,
       isPayment: MOVIE_USER_ISPAYMENT_ENUM.PAYMENT,
     });

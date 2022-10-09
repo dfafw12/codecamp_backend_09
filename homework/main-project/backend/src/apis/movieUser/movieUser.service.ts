@@ -37,7 +37,7 @@ export class MovieUserService {
       });
 
       // throw new Error("error!");
-      console.log(movieUser);
+
       // await this.movieUserRepository.save(movieUser);
       queryRunner.manager.save(movieUser);
 
@@ -92,13 +92,14 @@ export class MovieUserService {
   }
 
   async cancel({ impUid, amount, user: _user, isPayment }) {
+    console.log(-amount, ":cancel -amount");
     const movieUser = await this.create({
       impUid,
       amount: -amount,
       user: _user,
       isPayment: MOVIE_USER_ISPAYMENT_ENUM.CANCEL,
     });
-    // console.log(amount);
+
     return movieUser;
   }
 }
