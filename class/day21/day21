@@ -1,0 +1,21 @@
+토큰 만료인지?
+만료라면?
+refreshToken
+restoreAccessToken 을통해 accessToken 재발급
+이후엔 프론트에서 토큰 교체후 실패한 api 재시도.
+인가 성공후 db에서 데이터 꺼내옴.
+
+
+
+login 에서 refreshToken 추가해서 cookie 에 넣어주기
+restoreAccessToken 만들기. 
+cookie  = refreshToken
+
+
+OAuth
+MSA = micro service architecture
+
+
+                                                                    이 사이트에서만 해줘                        https 에서만 해줘 s:Secure
+// res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/; domain=.mybacksite.com; SameSite=None; Secure; httpOnly;`)
+    // res.setHeader('Access-Control-Allow-Origin', 'https://myfrontsite.com') 이사이트는 신뢰해줄게.

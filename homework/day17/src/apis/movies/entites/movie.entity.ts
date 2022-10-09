@@ -15,7 +15,6 @@ import {
 } from "typeorm";
 
 @Entity()
-@ObjectType()
 export class Movie {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => String)

@@ -1,0 +1,76 @@
+<!-- `http://numbersapi.com/random?min=1&max=200` -->
+<!-- `http://koreanjson.com/posts/${num}` -->
+<!-- `http://koreanjson.com/posts?userId=${userId}` --> 
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>callback 과 친구들</title>
+
+    <script>
+
+
+        
+        function myCallback(){
+            const aa = new XMLHttpRequest();
+            aa.open("get","http:/numbersaipp.com/com/reandom/*");
+            aa.send();
+            aa.addEventListener("load",(res)=>{
+                console.log(res)
+                const num = res.target.response.split(" ")[0]
+
+            const bb = new XMLHttpRequest()
+            bb.open("get",`http://koreanjson.com/posts/${num}`)
+            bb.send()
+            bb.addEventListener("load",(res)=>{
+                console.log(res)
+                const userId = JSON.parse(res.target,response)
+
+                const cc = new XMLHttpRequest()
+                cc.open("get",`https://koreanjson.com/post?userId=${userId}`)
+                cc.send()
+                cc.addEventListener("load",(res)=>{
+                    console.log(res)
+                });     
+            });
+            });
+        }
+
+        new Promise(()=>{
+
+        }).then(()=>{
+            console.log("성공")
+        }).catch(()=>{
+            console.log("실패")
+        })
+
+
+
+        function myPromise(){
+            // fetch("https://~~!~~!~").then(/*성공시 then*/).catch(/*실패시 catch*/);
+            axios 
+                .get("@@@@@@@").then((res)=>{
+                    return axios.get("@@@@@")
+                }).
+                then(()=>{
+                    return axios.get("############")
+                }).
+                then(()=>{
+                    return axios.get("$$$$$$$$$$$$$$$$$$")
+                }).then((res) =>{
+                    
+                })
+        }
+
+        function myAsnycAwait(){}
+    </script>
+  </head>
+  <body>
+            <button onclick="myCallback()"> CALLBACK PRACTICE</button'>
+            <button onclick="myPromise()"> PROMISE PRACTICE</button'>
+            <button>  PRACTICE</button'>
+
+
+  </body>
+</html>
