@@ -31,7 +31,6 @@ export class FilesService {
     );
 
     // 다운로드 URL 브라우저에 돌려주기.
-    // return files.filename;
     return results;
   }
 }
