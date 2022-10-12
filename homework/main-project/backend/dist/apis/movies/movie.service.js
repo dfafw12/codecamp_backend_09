@@ -27,17 +27,21 @@ exports.MovieService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
+const files_service_1 = require("../files/files.service");
 const movieGenre_entity_1 = require("../movieGenre/entities/movieGenre.entity");
+const movieImage_entity_1 = require("../movieImage/entities/movieImage.entity");
 const movie_entity_1 = require("./entites/movie.entity");
 let MovieService = class MovieService {
-    constructor(movieRepository, movieGenreRepository) {
+    constructor(movieRepository, movieGenreRepository, movieImageRepository, filesService) {
         this.movieRepository = movieRepository;
         this.movieGenreRepository = movieGenreRepository;
+        this.movieImageRepository = movieImageRepository;
+        this.filesService = filesService;
     }
     async create({ createMovieInput }) {
-        const { movieGenres } = createMovieInput, movie = __rest(createMovieInput, ["movieGenres"]);
+        const { files, movieGenres } = createMovieInput, movie = __rest(createMovieInput, ["files", "movieGenres"]);
+        console.log(files);
         const temp = [];
-        console.log(movieGenres, ":movieGenre");
         for (let i = 0; i < movieGenres.length; i++) {
             const genreName = movieGenres[i];
             const prevGenre = await this.movieGenreRepository.findOne({
@@ -54,6 +58,25 @@ let MovieService = class MovieService {
             }
         }
         const result = await this.movieRepository.save(Object.assign({ movieGenres: temp }, movie));
+        const imgTemp = [];
+        for (let i = 0; i < files.length; i++) {
+            const url = files[i];
+            const prevUrl = await this.movieImageRepository.findOne({
+                where: { url: url },
+            });
+            if (prevUrl) {
+                imgTemp.push(prevUrl);
+            }
+            else {
+                const newImg = await this.movieImageRepository.save({
+                    url: url,
+                    movie: {
+                        id: result.id,
+                    },
+                });
+                imgTemp.push(newImg);
+            }
+        }
         return result;
     }
     findOne({ movieId }) {
@@ -68,10 +91,40 @@ let MovieService = class MovieService {
         });
     }
     async update({ movieId, updateMovieInput }) {
+        const { files } = updateMovieInput;
         const updateMovie = await this.movieRepository.findOne({
             where: { id: movieId },
         });
-        const result = this.movieRepository.save(Object.assign(Object.assign(Object.assign({}, updateMovie), { id: movieId }), updateMovieInput));
+        const imgTemp = [];
+        for (let i = 0; i < files.length; i++) {
+            const url = files[i];
+            const prevUrl = await this.movieImageRepository.findOne({
+                where: { url: url },
+            });
+            if (prevUrl) {
+                imgTemp.push(prevUrl);
+            }
+            else {
+                const newImg = await this.movieImageRepository.save({
+                    url: url,
+                    movie: {
+                        id: movieId,
+                    },
+                });
+                imgTemp.push(newImg);
+            }
+        }
+        const result = this.movieRepository.save(Object.assign(Object.assign(Object.assign(Object.assign({}, updateMovie), { id: movieId }), updateMovieInput), { files: imgTemp }));
+        return result;
+    }
+    async deleteImg({ movieId }) {
+        console.log(movieId);
+        const result = await this.movieImageRepository.delete({
+            movie: {
+                id: movieId,
+            },
+        });
+        console.log(result);
         return result;
     }
 };
@@ -79,8 +132,11 @@ MovieService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(movie_entity_1.Movie)),
     __param(1, (0, typeorm_1.InjectRepository)(movieGenre_entity_1.MovieGenre)),
+    __param(2, (0, typeorm_1.InjectRepository)(movieImage_entity_1.MovieImage)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
-        typeorm_2.Repository])
+        typeorm_2.Repository,
+        typeorm_2.Repository,
+        files_service_1.FilesService])
 ], MovieService);
 exports.MovieService = MovieService;
 //# sourceMappingURL=movie.service.js.map

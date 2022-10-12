@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
+
 import { MovieTheater } from "src/apis/moveTheater/entities/movieTheater.entity";
 import { MovieGenre } from "src/apis/movieGenre/entities/movieGenre.entity";
 import { MovieImage } from "src/apis/movieImage/entities/movieImage.entity";
@@ -6,11 +7,8 @@ import { MovieImage } from "src/apis/movieImage/entities/movieImage.entity";
 import {
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
-  ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -36,6 +34,9 @@ export class Movie {
   @Column({ default: false })
   @Field(() => Boolean)
   isIng: boolean;
+
+  @Field(() => [MovieImage])
+  files: MovieImage[];
 
   @JoinTable()
   @ManyToMany(() => MovieGenre, (movieGenres) => movieGenres.movie)

@@ -13,6 +13,7 @@ exports.Movie = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const movieTheater_entity_1 = require("../../moveTheater/entities/movieTheater.entity");
 const movieGenre_entity_1 = require("../../movieGenre/entities/movieGenre.entity");
+const movieImage_entity_1 = require("../../movieImage/entities/movieImage.entity");
 const typeorm_1 = require("typeorm");
 let Movie = class Movie {
 };
@@ -41,6 +42,10 @@ __decorate([
     (0, graphql_1.Field)(() => Boolean),
     __metadata("design:type", Boolean)
 ], Movie.prototype, "isIng", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => [movieImage_entity_1.MovieImage]),
+    __metadata("design:type", Array)
+], Movie.prototype, "files", void 0);
 __decorate([
     (0, typeorm_1.JoinTable)(),
     (0, typeorm_1.ManyToMany)(() => movieGenre_entity_1.MovieGenre, (movieGenres) => movieGenres.movie),

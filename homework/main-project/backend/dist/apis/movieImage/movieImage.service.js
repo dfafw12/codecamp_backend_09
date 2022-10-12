@@ -35,7 +35,7 @@ let MovieImageService = class MovieImageService {
         this.movieRepository = movieRepository;
     }
     async create({ createMovieImageInput }) {
-        const { movieId } = createMovieImageInput, movieImage = __rest(createMovieImageInput, ["movieId"]);
+        const { movieId, url } = createMovieImageInput, movieImage = __rest(createMovieImageInput, ["movieId", "url"]);
         const result = await this.movieImageRepository.save(Object.assign(Object.assign({}, movieImage), { movie: {
                 id: movieId,
             } }));

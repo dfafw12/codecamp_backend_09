@@ -9,7 +9,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MovieModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const files_service_1 = require("../files/files.service");
 const movieGenre_entity_1 = require("../movieGenre/entities/movieGenre.entity");
+const movieImage_entity_1 = require("../movieImage/entities/movieImage.entity");
+const movieImage_service_1 = require("../movieImage/movieImage.service");
 const movie_entity_1 = require("./entites/movie.entity");
 const movie_resolver_1 = require("./movie.resolver");
 const movie_service_1 = require("./movie.service");
@@ -21,11 +24,14 @@ MovieModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([
                 movie_entity_1.Movie,
                 movieGenre_entity_1.MovieGenre,
+                movieImage_entity_1.MovieImage,
             ]),
         ],
         providers: [
             movie_resolver_1.MovieResolver,
             movie_service_1.MovieService,
+            files_service_1.FilesService,
+            movieImage_service_1.MovieImageService,
         ],
     })
 ], MovieModule);

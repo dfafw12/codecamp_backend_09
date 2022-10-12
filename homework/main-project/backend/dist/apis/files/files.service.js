@@ -9,21 +9,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilesService = void 0;
 const storage_1 = require("@google-cloud/storage");
 const common_1 = require("@nestjs/common");
+require("dotenv/config");
 let FilesService = class FilesService {
     async upload({ files }) {
+        const bucket = process.env.GCP_BUCKET;
         const waitedFiles = await Promise.all(files);
         const storage = new storage_1.Storage({
-            projectId: "bionic-region-364005",
-            keyFilename: "gcp-file-storage.json",
-        }).bucket("codecamp_storage");
+            projectId: process.env.GCP_PROJECT_ID,
+            keyFilename: process.env.GCP_KEY_FILENAME,
+        }).bucket(bucket);
         const results = await Promise.all(waitedFiles.map((el) => new Promise((resolve, reject) => {
             el.createReadStream()
                 .pipe(storage.file(el.filename).createWriteStream())
                 .on("finish", () => {
-                resolve(`codecamp_storage/${el.filename}`);
+                resolve(`${bucket}/${el.filename}`);
             })
                 .on("error", () => reject("실패"));
         })));
+        console.log(files);
+        console.log(results);
         return results;
     }
 };

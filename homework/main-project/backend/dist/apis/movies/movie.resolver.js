@@ -14,13 +14,15 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MovieResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
+const movieImage_service_1 = require("../movieImage/movieImage.service");
 const createMovie_input_1 = require("./dto/createMovie.input");
 const updateMovie_input_1 = require("./dto/updateMovie.input");
 const movie_entity_1 = require("./entites/movie.entity");
 const movie_service_1 = require("./movie.service");
 let MovieResolver = class MovieResolver {
-    constructor(movieService) {
+    constructor(movieService, movieimageService) {
         this.movieService = movieService;
+        this.movieimageService = movieimageService;
     }
     fetchMovies() {
         return this.movieService.findAll();
@@ -28,10 +30,14 @@ let MovieResolver = class MovieResolver {
     fetchMovie(movieId) {
         return this.movieService.findOne({ movieId });
     }
-    createMovie(createMovieInput) {
-        return this.movieService.create({ createMovieInput });
+    async createMovie(createMovieInput) {
+        const result = await this.movieService.create({
+            createMovieInput,
+        });
+        return result;
     }
     async UpdateMovie(movieId, updateMovieInput) {
+        await this.movieService.deleteImg({ movieId });
         return await this.movieService.update({ movieId, updateMovieInput });
     }
 };
@@ -53,7 +59,7 @@ __decorate([
     __param(0, (0, graphql_1.Args)({ name: "createMovieInput", nullable: true })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [createMovie_input_1.CreateMovieInput]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], MovieResolver.prototype, "createMovie", null);
 __decorate([
     (0, graphql_1.Mutation)(() => movie_entity_1.Movie),
@@ -65,7 +71,8 @@ __decorate([
 ], MovieResolver.prototype, "UpdateMovie", null);
 MovieResolver = __decorate([
     (0, graphql_1.Resolver)(),
-    __metadata("design:paramtypes", [movie_service_1.MovieService])
+    __metadata("design:paramtypes", [movie_service_1.MovieService,
+        movieImage_service_1.MovieImageService])
 ], MovieResolver);
 exports.MovieResolver = MovieResolver;
 //# sourceMappingURL=movie.resolver.js.map

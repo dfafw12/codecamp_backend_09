@@ -29,6 +29,10 @@ __decorate([
     (0, graphql_1.Field)(() => [String]),
     __metadata("design:type", Array)
 ], CreateMovieInput.prototype, "movieGenres", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => [String]),
+    __metadata("design:type", Array)
+], CreateMovieInput.prototype, "files", void 0);
 CreateMovieInput = __decorate([
     (0, graphql_1.InputType)()
 ], CreateMovieInput);

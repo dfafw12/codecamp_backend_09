@@ -1,11 +1,9 @@
-import { Delete } from "@nestjs/common";
 import { Field, ObjectType } from "@nestjs/graphql";
 import { Movie } from "src/apis/movies/entites/movie.entity";
 import {
   Column,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -21,7 +19,7 @@ export class MovieImage {
   @Field(() => String)
   url: string;
 
-  @Column()
+  @Column({ default: false })
   @Field(() => Boolean)
   isMain: boolean;
 

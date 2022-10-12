@@ -1,6 +1,7 @@
 import { Injectable, UnprocessableEntityException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { FilesService } from "../files/files.service";
 import { Movie } from "../movies/entites/movie.entity";
 import { MovieImage } from "./entities/movieImage.entity";
 
@@ -14,7 +15,7 @@ export class MovieImageService {
   ) {}
 
   async create({ createMovieImageInput }) {
-    const { movieId, ...movieImage } = createMovieImageInput;
+    const { movieId, url, ...movieImage } = createMovieImageInput;
 
     const result = await this.movieImageRepository.save({
       ...movieImage,

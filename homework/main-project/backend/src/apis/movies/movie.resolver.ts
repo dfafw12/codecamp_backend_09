@@ -1,4 +1,5 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { MovieImageService } from "../movieImage/movieImage.service";
 import { CreateMovieInput } from "./dto/createMovie.input";
 import { UpdateMovieInput } from "./dto/updateMovie.input";
 import { Movie } from "./entites/movie.entity";
@@ -7,7 +8,8 @@ import { MovieService } from "./movie.service";
 @Resolver()
 export class MovieResolver {
   constructor(
-    private readonly movieService: MovieService //
+    private readonly movieService: MovieService, // // private readonly movieImageService: MovieImageService // private readonly filesService: FilesService
+    private readonly movieimageService: MovieImageService
   ) {}
   @Query(() => [Movie])
   fetchMovies() {
@@ -23,11 +25,19 @@ export class MovieResolver {
   }
 
   @Mutation(() => Movie)
-  createMovie(
+  async createMovie(
     @Args({ name: "createMovieInput", nullable: true }) //
     createMovieInput: CreateMovieInput
+    // @Args({ name: "files", type: () => [GraphQLUpload] }) files: FileUpload[]
+    // @Args({ name: "createMovieImageInput", nullable: true })
+    // createMovieImageInput: CreateMovieImageInput
   ) {
-    return this.movieService.create({ createMovieInput });
+    const result = await this.movieService.create({
+      createMovieInput,
+      /* createMovieImageInput,*/
+    });
+
+    return result;
   }
 
   @Mutation(() => Movie)
@@ -35,6 +45,7 @@ export class MovieResolver {
     @Args("movieId") movieId: string,
     @Args("updateMovieInput") updateMovieInput: UpdateMovieInput
   ) {
+    await this.movieService.deleteImg({ movieId });
     return await this.movieService.update({ movieId, updateMovieInput });
   }
 }

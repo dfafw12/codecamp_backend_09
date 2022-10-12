@@ -20,16 +20,17 @@ let FilesResolver = class FilesResolver {
     constructor(filesService) {
         this.filesService = filesService;
     }
-    uploadFile(files) {
-        return this.filesService.upload({ files });
+    async uploadFile(files) {
+        const result = await this.filesService.upload({ files });
+        return result;
     }
 };
 __decorate([
     (0, graphql_1.Mutation)(() => [String]),
-    __param(0, (0, graphql_1.Args)({ name: 'files', type: () => [graphql_upload_1.GraphQLUpload] })),
+    __param(0, (0, graphql_1.Args)({ name: "files", type: () => [graphql_upload_1.GraphQLUpload] })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], FilesResolver.prototype, "uploadFile", null);
 FilesResolver = __decorate([
     (0, graphql_1.Resolver)(),

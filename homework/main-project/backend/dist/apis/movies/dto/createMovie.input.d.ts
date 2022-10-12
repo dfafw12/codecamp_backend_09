@@ -3,4 +3,5 @@ export declare class CreateMovieInput {
     summary: string;
     open: string;
     movieGenres: string[];
+    files: string[];
 }
