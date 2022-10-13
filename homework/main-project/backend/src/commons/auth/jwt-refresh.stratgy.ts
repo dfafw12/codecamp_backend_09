@@ -18,7 +18,6 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, "refresh") {
       passReqToCallback: true,
     });
   }
-
   async validate(req, payload) {
     // console.log(payload);
     // return {
