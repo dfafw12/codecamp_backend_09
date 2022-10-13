@@ -1,19 +1,41 @@
+import { CACHE_MANAGER, Inject, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
+import { Cache } from "cache-manager";
 import { ExtractJwt, Strategy } from "passport-jwt";
 
 export class JwtAccessStrategy extends PassportStrategy(Strategy, "access") {
-  constructor() {
+  constructor(
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: "myAccessKey",
+      passReqToCallback: true,
     });
   }
 
-  validate(payload) {
+  async validate(req, payload) {
     // console.log(payload, ": payload");
-    return {
-      email: payload.email,
-      id: payload.sub,
-    };
+    // console.log(req, ": req");
+    //   return {
+    //     email: payload.email,
+    //     id: payload.sub,
+    //   };
+    // }
+    const token = req.headers.authorization.replace("Bearer ", "");
+
+    console.log(token);
+
+    const isToken = await this.cacheManager.get(`accessToken:${token}`);
+
+    if (isToken) {
+      throw new UnauthorizedException();
+    } else {
+      return {
+        email: payload.email,
+        id: payload.sub,
+      };
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { CacheModule, Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { MovieModule } from "./apis/movies/movie.module";
@@ -9,6 +9,11 @@ import { UserModule } from "./apis/users/user.module";
 import { AuthModule } from "./apis/auth/auth.module";
 import { MovieUserModule } from "./apis/movieUser/movieUser.module";
 import { FilesModule } from "./apis/files/files.module";
+import { RedisClientOptions } from "redis";
+import * as redisStore from "cache-manager-redis-store";
+import { JwtAccessStrategy } from "./commons/auth/jwt-access.strategy";
+import { JwtRefreshStrategy } from "./commons/auth/jwt-refresh.stratgy";
+import { JwtGoogleStrategy } from "./commons/auth/jwt-social.google.strategy";
 
 @Module({
   imports: [
@@ -35,6 +40,16 @@ import { FilesModule } from "./apis/files/files.module";
       synchronize: true,
       logging: true,
     }),
+    CacheModule.register<RedisClientOptions>({
+      store: redisStore,
+      url: "redis://my-redis:6379",
+      isGlobal: true,
+    }),
+  ],
+  providers: [
+    JwtAccessStrategy, //
+    JwtRefreshStrategy, //
+    JwtGoogleStrategy,
   ],
 })
 export class AppModule {}

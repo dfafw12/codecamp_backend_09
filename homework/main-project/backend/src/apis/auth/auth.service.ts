@@ -13,14 +13,21 @@ export class AuthService {
   getAccessToken({ user }) {
     return this.jwtService.sign(
       { email: user.email, sub: user.id }, //
-      { secret: "myAccessKey", expiresIn: "1d" }
+      { secret: "myAccessKey", expiresIn: "3m" }
+    );
+  }
+
+  getRefreshToken({ user }) {
+    return this.jwtService.sign(
+      { email: user.email, sub: user.id }, //
+      { secret: "myRefreshKey", expiresIn: "180s" }
     );
   }
 
   setRefreshToken({ user, res }) {
     const refreshToken = this.jwtService.sign(
       { email: user.email, sub: user.id },
-      { secret: "myRefreshKey", expiresIn: "2w" }
+      { secret: "myRefreshKey", expiresIn: "180s" }
     );
 
     res.setHeader("Set-Cookie", `refreshToken=${refreshToken}; path=/;`);

@@ -93,8 +93,29 @@ SELECT * from product ;
 select pc.name as "카테고리",p.name as "상품명" 
 	from product p ,product_category pc 
 		WHERE p.productCategoryId  = pc.id ; 
-	
 -- select 이거볼래 from 어디서 where 이렇게만
 
+-- -------------------------------------------
+
+-- 	day28 PROCEDURE 
+	
+use myproject09;
+
+show tables
+-- 프로시저 목록
+show procedure status;
+--  프로시저 생성(새미콜론 위치 주의)
+create procedure mydummydata()
+begin
+	declare i int default 1;
+	while i <= 5000000 do
+		insert into board(writer,title,contents) values("철수",rand(),"ㅎㅇ");
+		set i = i+1;	
+		
+	end while;
+end;
+
+--  프로시저 실행
+call mydummydata(); 
 
 	

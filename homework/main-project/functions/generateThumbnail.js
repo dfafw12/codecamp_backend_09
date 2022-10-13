@@ -17,7 +17,7 @@ const sharp = require("sharp");
 // 스트림을 가져와 쓰기 가능한 스트림에 연결하는데 사용한다고함. 데이터 스트림을 쉽게 전달함.
 // 계속 이어붙일수?있다고하는거같음..
 
-exports.helloGCS = async (event, context) => {
+exports.generateThumbnail = async (event, context) => {
   //   console.log("Hello");
   const gcsEvent = event;
   console.log(gcsEvent);
