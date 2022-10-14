@@ -42,7 +42,7 @@ export class MovieResolver {
     } else {
       //
       const cacheResult = await this.cacheManager.get(search);
-      console.log(cacheResult, " : cacheResult");
+      console.log(cacheResult, " : cacheResult!");
       return [cacheResult];
     }
 
