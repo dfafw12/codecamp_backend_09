@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { FilesService } from "../files/files.service";
 import { MovieGenre } from "../movieGenre/entities/movieGenre.entity";
@@ -15,6 +16,9 @@ import { MovieService } from "./movie.service";
       MovieGenre,
       MovieImage,
     ]),
+    ElasticsearchModule.register({
+      node: "http://elasticsearch:9200",
+    }),
   ],
   providers: [
     MovieResolver, //

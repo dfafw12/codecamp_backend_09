@@ -1,4 +1,7 @@
+import { CACHE_MANAGER, Inject } from "@nestjs/common";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { Cache } from "cache-manager";
 import { MovieImageService } from "../movieImage/movieImage.service";
 import { CreateMovieInput } from "./dto/createMovie.input";
 import { UpdateMovieInput } from "./dto/updateMovie.input";
@@ -9,11 +12,41 @@ import { MovieService } from "./movie.service";
 export class MovieResolver {
   constructor(
     private readonly movieService: MovieService, // // private readonly movieImageService: MovieImageService // private readonly filesService: FilesService
-    private readonly movieimageService: MovieImageService
+    private readonly movieimageService: MovieImageService,
+    private readonly elasticSearchService: ElasticsearchService,
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache
   ) {}
+
   @Query(() => [Movie])
-  fetchMovies() {
-    return this.movieService.findAll();
+  async fetchMovies(@Args("search") search: string) {
+    const cacheData = await this.cacheManager.get(search);
+
+    if (!cacheData) {
+      //
+      const searchElaData = await this.elasticSearchService.search({
+        index: "myhomework",
+        query: {
+          match: { title: search },
+        },
+      });
+
+      const elaResult = searchElaData.hits.hits[0]._source;
+
+      await this.cacheManager.set(search, elaResult, {
+        ttl: 600,
+      });
+
+      console.log(elaResult, ": elaResult");
+      return [elaResult];
+    } else {
+      //
+      const cacheResult = await this.cacheManager.get(search);
+      console.log(cacheResult, " : cacheResult");
+      return [cacheResult];
+    }
+
+    // return this.movieService.findAll({ search });
   }
 
   @Query(() => Movie)

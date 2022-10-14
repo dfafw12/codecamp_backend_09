@@ -10,6 +10,7 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 
 @Entity()
@@ -46,4 +47,7 @@ export class Movie {
   @JoinTable()
   @ManyToMany(() => MovieTheater, (MovieTheater) => MovieTheater.movie)
   movieTheaters: MovieTheater[];
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

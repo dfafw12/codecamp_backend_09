@@ -53,7 +53,7 @@ scalar DateTime
 type Query {
   fetchUsers: [User!]!
   fetchLoginUser: User!
-  fetchMovies: [Movie!]!
+  fetchMovies(search: String!): [Movie!]!
   fetchMovie(movieId: String!): Movie!
   fetchMovieImages: [MovieImage!]!
   fetchMovieImageWithDeleted: [MovieImage!]!

@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 services:
   my-backend:
@@ -15,8 +15,8 @@ services:
   my-database:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: "myhomework"
-      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: 'mydocker09'
+      MYSQL_ROOT_PASSWORD: 'root'
     ports:
       - 3306:3306
 
@@ -36,5 +36,13 @@ services:
   logstash:
     image: logstash:7.17.0
     volumes:
-      - ./elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./elk/logstash/mysql-connector-java-8.0.28.jar:/usr/share/logstash/mysql-connector-java-8.0.28.jar
+      - ./elk/logstash/logstash.conf:/user/share/logstash/pipeline/logstash.conf
+      - ./elk/logstash/mysql-connector-java-8.0.28.jar:/user/share/logstash/mysql-connector-java-8.0.28.jar
+
+  # kibana:
+  #   image:   kibana:7.17.0
+  #   environment:
+  #     ELASTICSEARCH_URL: http://elasticsearch:9200
+  #     ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+  #   ports:
+  #     - 5601:5601
