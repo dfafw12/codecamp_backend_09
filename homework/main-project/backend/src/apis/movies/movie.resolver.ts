@@ -19,7 +19,9 @@ export class MovieResolver {
   ) {}
 
   @Query(() => [Movie])
-  async fetchMovies(@Args("search") search: string) {
+  async fetchMovies(
+    @Args("search") search: string, //
+    ) {
     const cacheData = await this.cacheManager.get(search);
 
     if (!cacheData) {
