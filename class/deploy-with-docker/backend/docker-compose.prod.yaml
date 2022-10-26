@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   my-backend:
-    image: asia.gcr.io/bionic-region-364005/my-backend:1.9
+    image: asia.gcr.io/bionic-region-364005/my-backend:2.0
     build:
       context: .
       dockerfile: Dockerfile.prod
