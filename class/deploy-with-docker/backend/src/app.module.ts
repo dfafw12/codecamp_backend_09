@@ -11,6 +11,10 @@ import { AuthModule } from './apis/auth/auth.module';
 import { PointsTransactionModule } from './apis/pointsTransaction/pointsTransaction.module';
 import { PaymentMoudle } from './apis/payment/payment.module';
 import { FilesModule } from './apis/files/files.module';
+import { AppController } from './app.controller';
+import { JwtAccessStrategy } from './commons/auth/jwt-access.strategy';
+import { JwtGoogleStrategy } from './commons/auth/jwt-social.google.strategy';
+import { JwtRefreshStrategy } from './commons/auth/jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -40,5 +44,11 @@ import { FilesModule } from './apis/files/files.module';
       logging: true,
     }),
   ],
+  providers: [
+    JwtAccessStrategy, //
+    JwtGoogleStrategy,
+    JwtRefreshStrategy,
+  ],
+  controllers: [AppController],
 })
 export class AppModule {}
