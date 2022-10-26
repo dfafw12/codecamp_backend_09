@@ -14,12 +14,12 @@ steps:
       - push
 
   #  3단계 >>> kubectl set image deployment/mybackend09-nestjs my-backend-sha256-1=asia.gcr.io/bionic-region-364005/my-backend:1.7
-  - name: gcr.io.cloud-builders/kubectl
+  - name: gcr.io/cloud-builders/kubectl
     args:
       - set
       - image
       - deployment/mybackend09-nestjs
-      - my-backend-sha256-1=asia.gcr.io/bionic-region-364005/my-backend:2.3
+      - my-backend-sha256-1=asia.gcr.io/bionic-region-364005/my-backend:2.4
     env:
       - CLOUDSDK_COMPUTE_ZONE=asia-northeast3
       - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1
