@@ -5,7 +5,7 @@ steps:
       - -f
       - class/deploy-with-docker/backend/docker-compose.prod.yaml
       -build
-      
+
 #  2단계 >>> docker-compose -f docker-compose.prod.yaml push
   - name: docker-compose:1.29.0 
     args:
@@ -19,7 +19,7 @@ steps:
       - set
       - image
       -  deployment/mybackend09-nestjs
-      - asia.gcr.io/bionic-region-364005/my-backend:1.7
+      - asia.gcr.io/bionic-region-364005/my-backend:1.8
     env:
       - CLOUDSDK_COMPUTE_ZONE=asia-northeast3
       - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1	
